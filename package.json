@@ -1,0 +1,29 @@
+{
+  "name": "env-wizard",
+  "version": "0.0.1",
+  "description": "CLI wizard to fill in .env.example files with missing data through the wizard",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": "src/cli.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kristoffeys/env-wizard.git"
+  },
+  "author": "kristoffeys",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kristoffeys/env-wizard/issues"
+  },
+  "homepage": "https://github.com/kristoffeys/env-wizard#readme",
+  "devDependencies": {
+    "typescript": "^5.4.3"
+  },
+  "dependencies": {
+    "commander": "^12.0.0",
+    "envfile": "^7.1.0",
+    "promptly": "^3.2.0"
+  }
+}
