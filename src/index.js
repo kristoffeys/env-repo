@@ -1,38 +1,23 @@
 import { parse, stringify } from 'envfile';
-import fs from 'fs';
+import fs from 'fs/promises';
 import promptly from 'promptly';
 
-export default function envWizard(sourceEnv, targetEnv) {
-    fs.readFile(sourceEnv, 'utf8', (err, data) => {
-        if (err) {
-            console.error(err);
-            return;
-        }
-
+export default async function envWizard(sourceEnv, targetEnv) {
+    try {
+        const data = await fs.readFile(sourceEnv, 'utf8');
         const env = parse(data);
-        fillViaWizard(env).then((result) => {
-            fs.writeFile(targetEnv, stringify(result), (err) => {
-                if (err) {
-                    console.error(err);
-                    return;
-                }
-                console.log('The file has been saved!');
-            });
-        });
-    });
+        const result = await fillViaWizard(env);
+        await fs.writeFile(targetEnv, stringify(result));
+    } catch (err) {
+        console.error(err);
+    }
 }
 
 
-async function fillViaWizard(env) {
+export async function fillViaWizard(env) {
     const result = {};
     for (const key in env) {
-        const value = env[key];
-        if (!value) {
-            const newValue = await promptly.prompt(`${key}: `);
-            result[key] = newValue;
-        } else {
-            result[key] = value;
-        }
+        result[key] = env[key] || await promptly.prompt(`${key}: `);
     }
     return result;
 }
